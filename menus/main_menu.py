@@ -1,7 +1,7 @@
 import random
 
+from custom._menu import Menu
 from utils import ascii_print
-from menus._menu import Menu
 
 
 title_art_path = "txts/title_art.txt"
@@ -40,16 +40,14 @@ class MainMenu(Menu):
         print(term.rosybrown3, end="")
         print(term.center("[q]" + "Quit Game".rjust(20)))
 
-    def process_navigation(self) -> str:
+        # NAVIGATION TIME!
         inp = self.term.inkey()
 
         if inp == "1":
-            # If user isn't logged in, prompt them to.
-
-            return "GAME"
+            return self.term.move_to("GAME")
 
         elif inp == "2":
-            return "INSTRUCTIONS"
+            return self.term.move_to("INSTRUCTIONS")
 
-        else:
-            return super().process_navigation(keystroke=inp)
+        elif inp == "q":
+            return self.term.quit_game()

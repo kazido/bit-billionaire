@@ -1,4 +1,4 @@
-from menus._menu import Menu
+from custom._menu import Menu
 from utils import ascii_print
 
 instructions = """
@@ -33,5 +33,9 @@ class Instructions(Menu):
             
         for line in instructions.split('\n'):
             print(term.normal + term.yellow + term.center(line))
-
-        return super().run()
+            
+        # NAVIGATION TIME!
+        inp = self.term.inkey()
+        
+        if inp == 'q':
+            self.term.go_back()
