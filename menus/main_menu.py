@@ -1,53 +1,81 @@
-import random
+import time
+from random import choice, randint
 
-from custom._menu import Menu
+from custom.menu import Menu
+from database.mongo import User
 from utils import ascii_print
 
 
 title_art_path = "txts/title_art.txt"
 title_art = ascii_print.aprint(title_art_path)
 
-# Pick a random splash message!
-with open("txts/splash_messages.txt", "r") as f:
-    splash_message = random.choice(f.readlines())
-
 
 class MainMenu(Menu):
     """Displays the home menu of the game."""
 
+    def __init__(self, term):
+        super().__init__(term=term)
+        self.term.user = User('bry400')
+
     def run(self):
         term = self.term
+        tick = 0
 
-        # Move to the center of the screen for the title
-        print(term.home + term.clear + term.move_y(term.height // 3))
+        # Clear the screen once at the start
+        print(term.home + term.normal + term.clear)
 
-        # Print out our title from the ascii art in a nice red color. Make it blink too.
-        print(term.indianred1)
-        for line in title_art:
-            print(term.blink + term.center(line))
+        # Display static content (splash message, user info, menu options) only once
+        with term.location(0, term.height // 2 - 2):
+            with open("txts/splash_messages.txt", "r") as f:
+                splash_message = choice(f.readlines())
+            print(term.blink + term.yellow + term.center(splash_message))
 
-        # Print our splash message beneath the title
-        for _ in range(2):
-            print()
-        print(term.normal + term.yellow + term.center(splash_message))
-        for _ in range(2):
-            print()
+        with term.location(0, term.height // 2 + 2):
+            print(term.center(f"Currently logged in as: {term.green(str(term.user))}"))
 
-        # After some space, print out our main menu.
-        print(term.rosybrown1, end="")
-        print(term.center("[1]" + "Start Game".rjust(20)))
-        print(term.center("[2]" + "Instructions".rjust(20)))
-        print(term.rosybrown3, end="")
-        print(term.center("[q]" + "Quit Game".rjust(20)))
+        with term.location(0, term.height // 2 + 4):
+            print(term.center("[1]" + "Start Game".rjust(20)))
+            print(term.center("[2]" + "Instructions".rjust(20)))
+            print(term.center("[q]" + "Quit Game".rjust(20)))
 
-        # NAVIGATION TIME!
-        inp = self.term.inkey()
+        # Continuously update only the title art
+        while True:
+            if tick < len(title_art):
+                if tick == 0:
+                    color1, color2, color3 = randint(50, 255), randint(50, 255), randint(50, 255)
+                # At the correct location (1/4th of term height)
+                with term.location(0, term.height // 4):
+                    print(term.color_rgb(color1, color2, color3), end='')
+                    for idx, line in enumerate(title_art):
+                        if idx in range(0, tick % len(title_art)+1):
+                            print(term.center(line, width=term.width - 2))
+                        else:
+                            print(term.gray10, end='')
+                            print(term.center(line))
 
-        if inp == "1":
-            return self.term.move_to("GAME")
+            # Wait for user input
+            inp = self.term.inkey(timeout=0.1)
 
-        elif inp == "2":
-            return self.term.move_to("INSTRUCTIONS")
+            if inp == "1":
+                with term.location(0, term.height // 2 + 4):
+                    print(term.reverse + term.center("[1]" + "Start Game".rjust(20)))
+                time.sleep(0.25)
+                return self.term.move_to("GAME")
 
-        elif inp == "q":
-            return self.term.quit_game()
+            elif inp == "2":
+                with term.location(0, term.height // 2 + 5):
+                    print(term.reverse + term.center("[2]" + "Instructions".rjust(20)))
+                time.sleep(0.25)
+                return self.term.move_to("INSTRUCTIONS")
+
+            elif inp == "q":
+                with term.location(0, term.height // 2 + 6):
+                    print(term.reverse + term.center("[q]" + "Quit Game".rjust(20)))
+                time.sleep(0.25)
+                return self.term.quit_game()
+
+            # Increment the tick for the next title update
+            tick += 1
+            
+            if tick > 12:
+                tick = 0

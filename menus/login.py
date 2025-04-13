@@ -1,7 +1,7 @@
 import time
 
-from custom._menu import Menu
-from database.mongo import test_login
+from custom.menu import Menu
+from database.mongo import User
 
 
 class Login(Menu):
@@ -55,14 +55,23 @@ class Login(Menu):
                 print("*", end="", flush=True)
 
         # Test validity of login information
-        if not test_login(username, password):
+        result = User.login(username, password)
+        if result == 1:
             print(term.move_down(3) + term.move_x(term.width // 2 - 15), end="", flush=True)
             print(term.red("Invalid login, please try again."), end="", flush=True)
             time.sleep(1)
             print(term.home + term.clear)
             return self.run()
+        
+        elif result == 2:
+            print(term.move_down(3) + term.move_x(term.width // 2 - 15), end="", flush=True)
+            print(term.red("You are already logged in elsewhere!"), end="", flush=True)
+            time.sleep(1)
+            print(term.home + term.clear)
+            return self.run()
 
         # We have successfully logged in, set our signal and exit this function
+        self.term.user = result
         print(term.move_down(2) + term.move_x(term.width // 2 - 13), end="")
         print(term.green("Successfully logged in!"))
         time.sleep(1)
