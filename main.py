@@ -20,11 +20,10 @@ if args.register:
 # blessed Terminal instance
 term = CTerminal()
 
-while True:
-    # Hide the cursor and allow input to be instantly read
-    with term.fullscreen(), term.cbreak(), term.hidden_cursor():
-        
-        # Run the current menu and set whatever it returns to the new menu
+# Hide the cursor and allow input to be instantly read
+with term.fullscreen(), term.cbreak(), term.hidden_cursor():
+    
+    while True:
         term.current_menu.run()
         
         term.update()
