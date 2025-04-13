@@ -1,0 +1,8 @@
+Structure
+
+
+menu.py files
+-> define a function in the file which will act as the code to run when switching to that menu
+-> handle inputs, print messages, do everything inside of this file
+-> all menu.py files should return either a menu name (to move to) or "back"
+    -> if the string "back" is returned, the code will handle it and move back one menu in the history
