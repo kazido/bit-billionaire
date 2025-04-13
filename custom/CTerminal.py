@@ -5,6 +5,8 @@ from menus.main_menu import MainMenu
 from menus.instructions import Instructions
 from menus.game import Game
 
+from database.mongo import User
+
 
 master = {
     "LOGIN": Login,
@@ -18,8 +20,9 @@ master = {
 class CTerminal(Terminal):
     def __init__(self):
         super().__init__(None, None, True)
-        self.history: list = []
-        self.current_menu = Login(self)
+        self.current_menu = MainMenu(self)
+        self.history: list = [self.current_menu]
+        self.user: User
         
     def update(self):
         self.current_menu = self.history[-1]
@@ -32,4 +35,5 @@ class CTerminal(Terminal):
 
     def quit_game(self):
         print(self.home + self.clear)
-        return exit(1)
+        self.user.set_field("logged_in", False)
+        exit()
