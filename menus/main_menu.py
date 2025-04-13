@@ -1,29 +1,21 @@
 import random
+
+from utils import ascii_print
 from menus._menu import Menu
 
-title_art = []
-title_art_path = "/home/bry/blessedApp/txts/title_art.txt"
 
-with open(title_art_path, "r") as f:
-    for line in f.readlines():
-        title_art.append(line.strip("\n"))
+title_art_path = "txts/title_art.txt"
+title_art = ascii_print.aprint(title_art_path)
 
-splash_path = "/home/bry/blessedApp/txts/splash_messages.txt"
-
-with open(splash_path, "r") as f:
+# Pick a random splash message!
+with open("txts/splash_messages.txt", "r") as f:
     splash_message = random.choice(f.readlines())
 
 
 class MainMenu(Menu):
-    """
-    Displays the main menu of the game.
-    Navigation:
-        1 > Starts game
-        2 > Displays instructions
-        Q > Exits game
-    """
+    """Displays the home menu of the game."""
 
-    def display(self):
+    def run(self):
         term = self.term
 
         # Move to the center of the screen for the title
@@ -52,8 +44,12 @@ class MainMenu(Menu):
         inp = self.term.inkey()
 
         if inp == "1":
+            # If user isn't logged in, prompt them to.
+
             return "GAME"
+
         elif inp == "2":
             return "INSTRUCTIONS"
+
         else:
             return super().process_navigation(keystroke=inp)

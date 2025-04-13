@@ -1,4 +1,5 @@
 from menus._menu import Menu
+from utils import ascii_print
 
 instructions = """
 Welcome to Bit Billionaire!
@@ -10,22 +11,13 @@ And have a good time with your friends in the in-game chat.
 -Bry
 """
 
-instructions_art = []
-instructions_art_path = "/home/bry/blessedApp/txts/instructions_art.txt"
-
-with open(instructions_art_path, "r") as f:
-    for line in f.readlines():
-        instructions_art.append(line.strip("\n"))
-
+instructions_art_path = "txts/instructions_art.txt"
+instructions_art = ascii_print.aprint(instructions_art_path)
 
 class Instructions(Menu):
-    """
-    Prints the instructions for the game.
-    Navigation:
-        Q > Back
-    """
+    """Prints the instructions for the game."""
 
-    def display(self):
+    def run(self):
         term = self.term
 
         # Move to the center of the screen for the title
@@ -42,4 +34,4 @@ class Instructions(Menu):
         for line in instructions.split('\n'):
             print(term.normal + term.yellow + term.center(line))
 
-        return super().display()
+        return super().run()

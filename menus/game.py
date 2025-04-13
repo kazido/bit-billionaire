@@ -5,19 +5,15 @@ from menus._menu import Menu
 
 
 class Game(Menu):
-    """
-    Displays the main game menu, with options to access everything.
-    Navigation:
-        1 > Profile
-        2 > Explore
-    """
+    """Displays the game menu with options to access everything."""
 
-    def display(self):
+    def run(self):
         # TODO: Display the main game menu!
+        # TODO: If the user hasn't played before, get them started with a tutorial!
 
         
 
-        return super().display()
+        return super().run()
 
     
     def process_navigation(self) -> str:
