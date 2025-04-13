@@ -1,6 +1,7 @@
 import time
 
-from database.mongo import collection
+from database.mongo import collection, User
+
 
 def register():
     username = input("Please enter a username: ")
@@ -14,12 +15,7 @@ def register():
         print("That's too short...")
         password = input("Please enter a password: ")
         
-    user = {
-        "username": username,
-        "password": password,
-    }
-    
-    if collection.insert_one(user):
+    if User.new_user(username, password):
         print("Account successfully created!")
         time.sleep(1)
         print("Launching Bit Billionaire...")
