@@ -1,27 +1,26 @@
-from custom._menu import Menu
-
-
-
+from custom.menu import Menu
 
 
 class Game(Menu):
     """Displays the game menu with options to access everything."""
 
     def run(self):
+        term = self.term
+        # Clear the screen once at the start
+        print(term.home + term.normal + term.clear)
+        
         # TODO: Display the main game menu!
         # TODO: If the user hasn't played before, get them started with a tutorial!
+        print(term.move_x(term.width // 3))
+        for line in term.user.get_profile():
+            print(line)
 
         
-
-        return super().run()
-
-    
-    def process_navigation(self) -> str:
-        inp = self.term.inkey()
-
-        if inp == "1":
-            return "PROFILE"
-        if inp == "2":
-            return "EXPLORE"
-        else:
-            return super().process_navigation(keystroke=inp)
+         # NAVIGATION TIME!
+        inp = term.inkey()
+        
+        if inp == '1':
+            term.move_to("FORAGING")
+        
+        if inp == 'q':
+            term.go_back()

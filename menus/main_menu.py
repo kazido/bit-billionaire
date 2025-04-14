@@ -7,7 +7,7 @@ from utils import ascii_print
 
 
 title_art_path = "txts/title_art.txt"
-title_art = ascii_print.aprint(title_art_path)
+title_art = ascii_print.get_lines(title_art_path)
 
 
 class MainMenu(Menu):
@@ -59,19 +59,19 @@ class MainMenu(Menu):
             if inp == "1":
                 with term.location(0, term.height // 2 + 4):
                     print(term.reverse + term.center("[1]" + "Start Game".rjust(20)))
-                time.sleep(0.25)
+                time.sleep(0.1)
                 return self.term.move_to("GAME")
 
             elif inp == "2":
                 with term.location(0, term.height // 2 + 5):
                     print(term.reverse + term.center("[2]" + "Instructions".rjust(20)))
-                time.sleep(0.25)
+                time.sleep(0.1)
                 return self.term.move_to("INSTRUCTIONS")
 
             elif inp == "q":
                 with term.location(0, term.height // 2 + 6):
                     print(term.reverse + term.center("[q]" + "Quit Game".rjust(20)))
-                time.sleep(0.25)
+                time.sleep(0.1)
                 return self.term.quit_game()
 
             # Increment the tick for the next title update

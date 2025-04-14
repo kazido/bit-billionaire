@@ -11,7 +11,7 @@ Compete for your top spot on the skill leaderboards or just have a good time wit
 """
 
 instructions_art_path = "txts/instructions_art.txt"
-instructions_art = ascii_print.aprint(instructions_art_path)
+instructions_art = ascii_print.get_lines(instructions_art_path)
 
 class Instructions(Menu):
     """Prints the instructions for the game."""
