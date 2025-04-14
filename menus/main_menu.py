@@ -15,7 +15,7 @@ class MainMenu(Menu):
 
     def __init__(self, term):
         super().__init__(term=term)
-        self.term.user = User('bry400')
+        self.term.user = User("bry400")
 
     def run(self):
         term = self.term
@@ -45,37 +45,28 @@ class MainMenu(Menu):
                     color1, color2, color3 = randint(50, 255), randint(50, 255), randint(50, 255)
                 # At the correct location (1/4th of term height)
                 with term.location(0, term.height // 4):
-                    print(term.color_rgb(color1, color2, color3), end='')
+                    print(term.color_rgb(color1, color2, color3), end="")
                     for idx, line in enumerate(title_art):
-                        if idx in range(0, tick % len(title_art)+1):
+                        if idx in range(0, tick % len(title_art) + 1):
                             print(term.center(line, width=term.width - 2))
                         else:
-                            print(term.gray10, end='')
+                            print(term.gray10, end="")
                             print(term.center(line))
 
             # Wait for user input
             inp = self.term.inkey(timeout=0.1)
 
             if inp == "1":
-                with term.location(0, term.height // 2 + 4):
-                    print(term.reverse + term.center("[1]" + "Start Game".rjust(20)))
-                time.sleep(0.1)
                 return self.term.move_to("GAME")
 
             elif inp == "2":
-                with term.location(0, term.height // 2 + 5):
-                    print(term.reverse + term.center("[2]" + "Instructions".rjust(20)))
-                time.sleep(0.1)
                 return self.term.move_to("INSTRUCTIONS")
 
             elif inp == "q":
-                with term.location(0, term.height // 2 + 6):
-                    print(term.reverse + term.center("[q]" + "Quit Game".rjust(20)))
-                time.sleep(0.1)
                 return self.term.quit_game()
 
             # Increment the tick for the next title update
             tick += 1
-            
+
             if tick > 12:
                 tick = 0
