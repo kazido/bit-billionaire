@@ -11,9 +11,8 @@ class Game(Menu):
         
         # TODO: Display the main game menu!
         # TODO: If the user hasn't played before, get them started with a tutorial!
-        print(term.move_x(term.width // 3))
         for line in term.user.get_profile():
-            print(line)
+            print(term.center(line))
 
         
          # NAVIGATION TIME!
