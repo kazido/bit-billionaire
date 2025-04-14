@@ -5,7 +5,7 @@ from menus.main_menu import MainMenu
 from menus.instructions import Instructions
 from menus.game import Game
 
-from menus.skills.foraging import Foraging
+from menus.skills.foraging.foraging import Foraging
 
 from database.mongo import User
 
